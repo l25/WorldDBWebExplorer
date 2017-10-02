@@ -2,10 +2,6 @@
 include('db_login.php');
 function default_query_db($qstring){
 	require('db_login.php');
-	/* $db_host='127.0.0.1';
-	$db_database='world';
-	$db_username='myuser';
-	$db_password='mk8t'; */
 	//connect to database
 	$mysqli = new mysqli($db_host, $db_username, $db_password, $db_database);
 	//check for successful connection
@@ -54,10 +50,6 @@ function default_query_db($qstring){
 
 function query_db($qstring){
 	require('db_login.php');
-	/*$db_host='127.0.0.1';
-	$db_database='world';
-	$db_username='myuser';
-	$db_passwo rd='mk8t';*/
 	//connect to database
 	$mysqli = new mysqli($db_host, $db_username, $db_password, $db_database);
 	//check for successful connection
