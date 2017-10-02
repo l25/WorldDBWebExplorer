@@ -51,18 +51,19 @@ table {
 
 .countries td{
 /*	border: 1px solid white;*/
-	
+	padding: 5px 4px 4px 5px;
 /*	font-size: 20px;*/
 }
 .countries th, .countries td {
 	border: 1px solid #5e3e84;
-	padding: 5px 4px 4px 5px;
+	
 }
 .countries th {
 	text-transform: uppercase;
 	text-align: left;
 	background: #a58fbe;
 	background: linear-gradient(to bottom, #a58fbe, #cec1de, #a58fbe);
+	padding: 8px 4px 6px 5px;
 }
 .countries tbody tr:nth-of-type(odd){background-color: #a58fbe;}
 .countries tbody tr:nth-of-type(even){background-color: #cec1de;}
