@@ -3,13 +3,13 @@ body {
 /*	background: linear-gradient(to bottom, #4a9e3d, #86c97b) no-repeat;*/
 }
 ::selection {
-	background-color: #777;
-	color: white;
+	background-color: #fff;
+/*	color: white;*/
 }
 .content {
 	margin: 0 auto;
 	background-color: rgb(1,100,200);
-	border: 1px solid black;
+/*	border: 1px solid black;*/
 	max-width: 1200px;
 }
 .header {
@@ -38,36 +38,36 @@ body {
 table {
 	padding: 5px 0 5px 0;
 }
-.countries{
+table.countries{
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	margin: 0 auto;
 	border-collapse: collapse;
 	color: #000;
 }
-.countries caption {
+table.countries caption {
 	font-size: 30px;
 	padding: 20px 0 20px 0;
 }
 
-.countries td{
+table.countries td{
 /*	border: 1px solid white;*/
 	padding: 5px 4px 4px 5px;
 /*	font-size: 20px;*/
 }
-.countries th, .countries td {
+table.countries th, table.countries td {
 	border: 1px solid #5e3e84;
 	
 }
-.countries th {
+table.countries th {
 	text-transform: uppercase;
 	text-align: left;
 	background: #a58fbe;
 	background: linear-gradient(to bottom, #a58fbe, #cec1de, #a58fbe);
 	padding: 8px 4px 6px 5px;
 }
-.countries tbody tr:nth-of-type(odd){background-color: #a58fbe;}
-.countries tbody tr:nth-of-type(even){background-color: #cec1de;}
-.countries tbody tr:hover{
+table.countries tbody tr:nth-of-type(odd){background-color: #a58fbe;}
+table.countries tbody tr:nth-of-type(even){background-color: #cec1de;}
+table.countries tbody tr:hover{
 	background-color: #5e3e84;
 	color: #cec1de;
 }
