@@ -20,118 +20,54 @@ function get_table_columns($table_name){
 		$res->close();
 	}
 }
-function draw_table($res, $table_name){
-	get_table_columns();
-	echo "<table class=\"countries\">";
-	echo "<caption>Countries</caption>";
-	echo "<colgroup>";
-	echo "<col class=\"code\" />";
-	echo "<col class=\"name\" />";
-	echo "<col class=\"continent\" />";
-	echo "</colgroup>";
-	echo "<thead>";
-	echo "<tr>";
-	echo "<th scope=\"col\">Code</th>";
-	echo "<th scope=\"col\">Country</th>";
-	echo "<th scope=\"col\">Continent</th>";
-
-	echo "</tr>";
-	echo "</thead>";
-	echo "<tfoot>";
-	echo "<tr><td colspan=\"3\">" . $res->num_rows . "</td></tr>";
-	echo "<tr>";
-	echo "<th scope=\"col\">Code</th>";
-	echo "<th scope=\"col\">Country</th>";
-	echo "<th scope=\"col\">Continent</th>";
-	echo "</tr>";
-	echo "</tfoot>";
-	echo "<tbody>";
-	while($row = $res->fetch_assoc()){
-		$code = $row["Code"];
-		$name = $row["Name"];
-		$continent = $row["Continent"];
-		echo "<tr>";
-			echo "<td>$code</td>";
-			echo "<td>$name</td>";
-			echo "<td>$continent</td>";
-		echo "</tr>";															
-	}
-	echo "</tbody>";
-	echo "</table>";
-}
 function draw_countries_table(&$res){
 	echo "<table class=\"countries\">";
-	echo "<caption>Countries</caption>";
+	echo "<caption>Countries (".$res->num_rows.")</caption>";
 	echo "<colgroup>";
-	echo "<col class=\"code\" />";
-	echo "<col class=\"name\" />";
-	echo "<col class=\"continent\" />";
-/*	echo "<col class=\"region\" />";
-	echo "<col class=\"surfacearea\" />";
-	echo "<col class=\"indepyear\" />";
-	echo "<col class=\"population\" />";
-	echo "<col class=\"lifeexpectancy\" />";
-	echo "<col class=\"gnp\" />";
-	echo "<col class=\"gnpold\" />";
-	echo "<col class=\"localname\" />";
-	echo "<col class=\"governmentform\" />";
-	echo "<col class=\"headofstate\" />";
-	echo "<col class=\"capital\" />";
-	echo "<col class=\"code2\" />";*/
+	if(empty($_POST['columns'])){
+		$columns = get_table_columns("country");
+	}else{
+		$columns = $_POST['columns'];
+	}
+	$N = count($columns);						
+	for($i=0; $i < $N; $i++){
+		echo "<col class=\"$columns[$i]\" />";
+	}
 	echo "</colgroup>";
 	echo "<thead>";
 	echo "<tr>";
-	echo "<th scope=\"col\">Code</th>";
-	echo "<th scope=\"col\">Country</th>";
-	echo "<th scope=\"col\">Continent</th>";
-/*	echo "<th scope=\"col\">Region</th>";
-	echo "<th scope=\"col\">SurfaceArea</th>";
-	echo "<th scope=\"col\">IndepYear</th>";
-	echo "<th scope=\"col\">Population</th>";
-	echo "<th scope=\"col\">LifeExpectancy</th>";
-	echo "<th scope=\"col\">GNP</th>";
-	echo "<th scope=\"col\">GNPOld</th>";
-	echo "<th scope=\"col\">Continent</th>";
-	echo "<th scope=\"col\">Continent</th>";
-	echo "<th scope=\"col\">Continent</th>";
-	echo "<th scope=\"col\">Continent</th>";
-	echo "<th scope=\"col\">Continent</th>";
-	echo "<th scope=\"col\">Continent</th>";
-	echo "<th scope=\"col\">Continent</th>";
-	echo "<th scope=\"col\">Continent</th>";
-	echo "<th scope=\"col\">Continent</th>";
-	echo "<th scope=\"col\">Continent</th>";*/
+	for($i=0; $i < $N; $i++){
+		echo "<th scope=\"col\">$columns[$i]</th>";
+	}
 	echo "</tr>";
 	echo "</thead>";
 	echo "<tfoot>";
-	echo "<tr><td colspan=\"3\">" . $res->num_rows . "</td></tr>";
 	echo "<tr>";
-	echo "<th scope=\"col\">Code</th>";
-	echo "<th scope=\"col\">Country</th>";
-	echo "<th scope=\"col\">Continent</th>";
+	if ($res->num_rows>30) {
+		for($i=0; $i < $N; $i++){
+			echo "<th scope=\"col\">$columns[$i]</th>";
+		}
+	}	
 	echo "</tr>";
 	echo "</tfoot>";
 	echo "<tbody>";
-	while($row = $res->fetch_assoc()){
-		$code = $row["Code"];
-		$name = $row["Name"];
-		$continent = $row["Continent"];
+	while($row = $res->fetch_array()){
 		echo "<tr>";
-			echo "<td>$code</td>";
-			echo "<td>$name</td>";
-			echo "<td>$continent</td>";
+		for($i=0; $i < $N; $i++){
+			echo "<td>$row[$i]</td>";
+		}	
 		echo "</tr>";															
 	}
 	echo "</tbody>";
 	echo "</table>";
 }
-function default_query_db(){
+function default_query_db($columnset){
 	$mysqli = connect();
 	//check for successful connection
 	if ($mysqli->connect_errno) {
 		echo "Failed to connect to MySQL: " . $mysqli->connect_error;
 	}else{
-		$query = "select * from country";
+		$query = "select $columnset from country";
 		//execute query
 		$res = $mysqli->query($query);
 		if (!$res) {
@@ -143,13 +79,13 @@ function default_query_db(){
 		$res->close();
 	}
 }
-function query_db($qstring){	
+function query_db($columnset, $qstring){	
 	$mysqli = connect();
 	//check for successful connection
 	if ($mysqli->connect_errno) {
 		echo "Failed to connect to MySQL: " . $mysqli->connect_error;
 	}else{
-		$query = "select * from country where Name like '%".$qstring."%'";
+		$query = "select $columnset from country where Name like '%".$qstring."%'";
 		//execute query
 		$res = $mysqli->query($query);
 		if (!$res) {
@@ -170,45 +106,67 @@ function query_db($qstring){
 	<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+	<div class="header">
+		<div class="logo">MySQL's World Database Explorer</div>
+	</div>
 	<div class="content">
-		<div class="header">
-			<div class="logo">MySQL's World Database Explorer</div>
-		</div>
-		<div class="nav">
-			<ul>
-				<li>Countries</li>
-				<li>Cities</li>
-			</ul>
-		</div>
+		<ul class="nav">
+			<li>Countries</li>
+			<li>Cities</li>
+		</ul>
 		<div class="searchForm">
-			<form action="<?php echo($_SERVER['PHP_SELF']); ?>" method="GET">
-				<label>Search: 
+			<form action="<?php echo($_SERVER['PHP_SELF']); ?>" method="POST">
+				<label for="search" class="label">Search: 
 					<input type="text" name="search" />
 				</label>
 				<input type="submit" value="Go!" />
+						
+				Select columns to show: <br />
+				<?php
+					$res = get_table_columns("country");
+					$i = 0;
+					while($row = $res->fetch_array()){
+						echo "<label><input type=\"checkbox\" name=\"columns[]\" value=\"".$row[0]."\" />".$row[0]."</label>";					
+						$i += 1;
+					}
+				?>
+<!--			<input type="submit" name="columnsSubmit" value ="Submit" />-->
 			</form>
-		</div>
-		<div class="field_names">
-			<?php
-				//$res = get_table_columns("country");
-				
+<!--clean for production />-->			
+			<?php			
+				$columns = $_POST['columns'];
+				if(empty($columns)){
+					echo("You didn't select anything.");
+					$columnset = " * ";
+				}else{
+					$N = count($columns);
+					echo("You selected $N column(s): ");
+					$columnset = " ";
+					for($i=0; $i < $N; $i++){
+						echo($columns[$i]." ");
+						$columnset = $columnset . $columns[$i];
+						if ($i < ($N-1)){
+							$columnset = $columnset . ", ";
+						} else { $columnset = $columnset . " ";}
+					}
+				}
 			?>
+<!--clean for production />-->			
 		</div>
-		<div class="content">
+		<div class="result">
 		<?php
-		$search = htmlentities($_GET["search"]);
+		$search = htmlentities($_POST["search"]);
 		$self = htmlentities($_SERVER['PHP_SELF']);
 		if ($search != NULL) {
-			query_db($search);
+			query_db($columnset, $search);
 		}else{
-			default_query_db();
+			default_query_db($columnset);
 		}
 		?>
-			
-		</div>
-		<div class="footer">
-			<div class="author">Valeria Studio</div>
 		</div>
 	</div>	
+	<div class="footer">
+		<div class="author">Valeria Studio</div>
+	</div>
 </body>
 </html>
