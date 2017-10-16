@@ -108,51 +108,62 @@ function query_db($columnset, $qstring){
 <body>
 	<div class="header">
 		<div class="logo">MySQL's World Database Explorer</div>
-	</div>
-	<div class="content">
-		<ul class="nav">
+<!--		<ul class="nav">
 			<li>Countries</li>
 			<li>Cities</li>
-		</ul>
-		<div class="searchForm">
-			<form action="<?php echo($_SERVER['PHP_SELF']); ?>" method="POST">
-				<label for="search" class="label">Search: 
-					<input type="text" name="search" />
-				</label>
-				<input type="submit" value="Go!" />
-						
-				Select columns to show: <br />
-				<?php
-					$res = get_table_columns("country");
-					$i = 0;
-					while($row = $res->fetch_array()){
-						echo "<label><input type=\"checkbox\" name=\"columns[]\" value=\"".$row[0]."\" />".$row[0]."</label>";					
-						$i += 1;
-					}
-				?>
+		</ul>-->
+	</div>
+	
+<!-- search form -->	
+	<div class="searchForm">
+		<form action="<?php echo($_SERVER['PHP_SELF']); ?>" method="POST">
+			<label class="label">Search: 
+				<input type="search" name="search" placeholder="Enter search string"/>
+			</label>
+			<input type="submit" value="Go!" />
+					
+			
+			<div class="columns">
+		Select columns to show: <br />
+		<?php
+			$res = get_table_columns("country");
+			$i = 0;
+			while($row = $res->fetch_array()){
+				echo "<label><input type=\"checkbox\" name=\"columns[]\" value=\"".$row[0]."\" />".$row[0]."</label><br />";					
+				$i += 1;
+			}
+		?>
 <!--			<input type="submit" name="columnsSubmit" value ="Submit" />-->
-			</form>
 <!--clean for production />-->			
-			<?php			
-				$columns = $_POST['columns'];
-				if(empty($columns)){
-					echo("You didn't select anything.");
-					$columnset = " * ";
-				}else{
-					$N = count($columns);
-					echo("You selected $N column(s): ");
-					$columnset = " ";
-					for($i=0; $i < $N; $i++){
-						echo($columns[$i]." ");
-						$columnset = $columnset . $columns[$i];
-						if ($i < ($N-1)){
-							$columnset = $columnset . ", ";
-						} else { $columnset = $columnset . " ";}
-					}
+		<?php			
+			$columns = $_POST['columns'];
+			if(empty($columns)){
+				echo("You didn't select anything.");
+				$columnset = " * ";
+			}else{
+				$N = count($columns);
+				echo("You selected $N column(s): ");
+				$columnset = " ";
+				for($i=0; $i < $N; $i++){
+					echo($columns[$i]." ");
+					$columnset = $columnset . $columns[$i];
+					if ($i < ($N-1)){
+						$columnset = $columnset . ", ";
+					} else { $columnset = $columnset . " ";}
 				}
-			?>
-<!--clean for production />-->			
-		</div>
+			}
+		?>
+<!--clean for production />-->
+	</div>
+			
+			
+		</form>
+			
+	</div>
+	<div class="searchExtendedForm">
+	</div>
+	
+	<div class="content">		
 		<div class="result">
 		<?php
 		$search = htmlentities($_POST["search"]);
@@ -165,6 +176,7 @@ function query_db($columnset, $qstring){
 		?>
 		</div>
 	</div>	
+	<div class="info">some info</div>
 	<div class="footer">
 		<div class="author">Valeria Studio</div>
 	</div>
