@@ -103,7 +103,7 @@ function query_db($columnset, $qstring){
 <head>
 	<meta charset="utf-8">
 	<title>MySQL's World DB Explorer</title>
-	<link rel="stylesheet" href="css/styles.css">
+<!--	<link rel="stylesheet" href="css/styles.css">-->
 </head>
 <body>
 	<div class="header">
@@ -156,12 +156,13 @@ function query_db($columnset, $qstring){
 <!--clean for production />-->
 	</div>
 			
-			
+		<div class="searchExtendedForm">
+		
+		</div>	
 		</form>
 			
 	</div>
-	<div class="searchExtendedForm">
-	</div>
+	
 	
 	<div class="content">		
 		<div class="result">
