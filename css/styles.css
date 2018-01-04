@@ -18,21 +18,17 @@ a:hover {
 	background-color: #fff;
 /*	color: white;*/
 }
-.columns {
-	float: left;
-	width: 15%;
-}
 .content {
 /*	margin: 0 auto;*/
 	background-color: #cec1de;
 /*	max-width: 1200px;*/
 	float: left;
-	width: 60%;
+	width: 85%;
 }
-.info{
+/*.info{
 	float: left;
 	width: 15%;
-}
+}*/
 .header {
 	background-color: #5e3e84;
 	height: 200px;
@@ -49,7 +45,6 @@ a:hover {
 	margin-bottom: 0; 
 	margin-top: 0; 
 	max-width: 1200px;
-	border: solid 1px white;
 }/*
 .nav {
 	background-color: #cccccc;	
@@ -64,23 +59,23 @@ ul.nav {
 }*/
 .searchForm {
 	font-size: 1.2em;
-/*	color: white;*/
+	color: white;
 	font-family: Tahoma, Geneva, sans-serif;
-	border: solid 1px yellow;
-	background-color: #aaaaaa;
+	background-color: #cec1de;
+	float: left;
+	width: 13%;
+	padding:1%;
 }
 .searchForm .label {
 	display: inline-block;
 	width: 200px;
 	vertical-align: top;
-	text-align: right;
-	margin-right: 10px;
+	text-align: left;
 	font-weight: bold;
 	color: rgba(255,255,255,.5);
-	border: solid 1px red;
 }
 .searchForm input[type="submit"]{
-	margin-left: 220px;
+	margin:10px;
 	padding: 10px 25px;
 	font-size: 1em;
 	color: white;
